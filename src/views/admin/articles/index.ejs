@@ -4,10 +4,8 @@
 
   <div class="container">
     <hr />
-    <h2>Categorias</h2>
-    <a href="/admin/categories/new" class="btn btn-success"
-      >Criar nova categoria</a
-    >
+    <h2>Artigos</h2>
+    <a href="/admin/articles/new" class="btn btn-success">Criar novo artigo</a>
     <hr />
 
     <table class="table table-bordered">
@@ -16,29 +14,31 @@
           <th>ID</th>
           <th>Título</th>
           <th>Slug</th>
+          <th>Categoria</th>
           <th>Ações</th>
         </tr>
       </thead>
 
       <tbody>
-        <% categories.forEach((category) => { %>
+        <% articles.forEach((article) => { %>
         <tr>
-          <th><%= category.id %></th>
-          <th><%= category.title %></th>
-          <th><%= category.slug %></th>
-          <th>
+          <th><%= article.id %></th>
+          <th><%= article.title %></th>
+          <th><%= article.slug %></th>
+          <th><%= article.category.title %></th>
+          <th style="display: flex">
             <a
-              href="/admin/categories/edit/<%= category.id %>"
+              href="/admin/articles/edit/<%= article.id %>"
+              style="margin-right: 5px"
               class="btn btn-warning"
               >Editar</a
             >
             <form
               method="POST"
-              action="/categories/delete"
-              style="display: inline"
+              action="/articles/delete"
               onsubmit="confirmarDelecao(event, this)"
             >
-              <input type="hidden" name="id" value="<%= category.id %>" />
+              <input type="hidden" name="id" value="<%= article.id %>" />
               <button class="btn btn-danger">Deletar</button>
             </form>
           </th>
@@ -52,7 +52,7 @@
 <script>
   function confirmarDelecao(event, form) {
     event.preventDefault();
-    let decision = confirm("Tem certeza que deseja deletar essa categoria?");
+    let decision = confirm("Tem certeza que deseja deletar esse artigo?");
 
     if (decision) {
       form.submit();
