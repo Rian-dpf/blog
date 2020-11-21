@@ -2,16 +2,31 @@ const express = require("express");
 const path = require("path");
 const connection = require("./database/db");
 const bodyParser = require("body-parser");
+const session = require("express-session");
+
 const categoriesController = require("./categories/CategoriesController");
 const articlesController = require("./articles/ArticlesController");
+const usersController = require("./users/UsersController");
+
 const Article = require("./articles/article");
 const Category = require("./categories/category");
+const User = require("./users/User");
 
 const app = express();
 
 // Body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Sessions
+app.use(
+  session({
+    secret: "lajhsfhst",
+    cookie: {
+      maxAge: 30000000,
+    },
+  })
+);
 
 //Static
 app.use(express.static("public"));
@@ -32,8 +47,10 @@ connection
 
 app.use("/", categoriesController);
 app.use("/", articlesController);
+app.use("/", usersController);
 
 // Rotas
+
 app.get("/", (req, res) => {
   Article.findAll({
     order: [["id", "DESC"]],
@@ -92,6 +109,6 @@ app.get("/category/:slug", (req, res) => {
     });
 });
 
-app.listen(8080, () => {
+app.listen(3000, () => {
   console.log("Rodando ");
 });

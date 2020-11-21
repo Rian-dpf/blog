@@ -1,3 +1,7 @@
 a {
   color: #fff !important;
 }
+
+.row a {
+  color: #000 !important;
+}
